@@ -30,3 +30,4 @@ while running:
 
 # Script complete! If having to quit the program:
 pygame.quit()
+# Creating another label. Make sure it is seen!
