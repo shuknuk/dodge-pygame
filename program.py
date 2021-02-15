@@ -1,8 +1,6 @@
 # Main point of creating a simple python program.
 
-# 1. First, to import the pygame library
-# This code will also initialize the pygame library
-
+# 1. First, to import the pygame library # This code will also initialize the pygame library
 import pygame
 pygame.init()
 
@@ -18,8 +16,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Gray background! | Fill background with a gray color. 
-    # Gray color has number 200. 
+    # Gray background! | Fill background with a gray color. # Gray color has number 200. 
     screen.fill((200, 200, 200))
 
     # Blue circle in the center
