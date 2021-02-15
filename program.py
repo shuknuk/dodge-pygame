@@ -54,3 +54,13 @@ rect = surf.get_rect()
 # This line says: "Draw surf onto screen at center"
 screen.blit(surf, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
 pygame.display.flip()
+
+# Keep center of surf at the CENTER OF DISPLAY 
+surf_center = (
+    (SCREEN_WIDTH-surf.get_width())/2,
+    (SCREEN_HEIGHT-surf.get_height())/2
+)
+
+# Have the surf be drawn at the new coordinates
+screen.blit(surf, surf_center)
+pygame.display.flip()
