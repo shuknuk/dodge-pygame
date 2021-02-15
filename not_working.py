@@ -1,4 +1,5 @@
 # Import module - pygame
+
 import pygame
 
 # Import pygame.locals | Detect hardware input from user:
@@ -12,15 +13,26 @@ from pygame.locals import (
     QUIT,
 )
 
-# Initialize pygame
-pygame.init()
-
 # Define screen width and height
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
+# Define a player object by extending pygame.sprite.Sprite
+# That surface drawn on screen is now attribute of 'player'
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Player, self).__init__()
+        self.surf = pygame.Surface((75, 25))
+        self.surf.fill((255, 255, 255))
+        self.rect = self.surf.get_rect()
+
+# Initialize pygame
+pygame.init()
+
 # Create screen object | Determined by width+height of screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+player = Player()
 
 # Keep loop running, variable config:
 running = True
@@ -34,33 +46,15 @@ while running:
             # If key having to be esc, suspend program:
             if event.key == K_ESCAPE:
                 running = False
-
         # Manual suspending program using X-button
         elif event.type == QUIT:
             running = False
 
-# Screen with white (imma prob. change it to another color later, idk)
-screen.fill((255, 255, 255))
+# Fill the screen with black
+screen.fill((0, 0, 0))
 
-# Surface length and width
-surf = pygame.Surface((50, 50))
+# Draw the player on the screen
+screen.blit(player.surf, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
 
-# Surface be separate from background
-surf.fill((0, 0, 0))
-rect = surf.get_rect()
-
-# The following commands below this will use .blit() and .flip()
-# Note, .blit() stands for Block Transfer
-# This line says: "Draw surf onto screen at center"
-screen.blit(surf, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
-pygame.display.flip()
-
-# Keep center of surf at the CENTER OF DISPLAY 
-surf_center = (
-    (SCREEN_WIDTH-surf.get_width())/2,
-    (SCREEN_HEIGHT-surf.get_height())/2
-)
-
-# Have the surf be drawn at the new coordinates
-screen.blit(surf, surf_center)
+# Update the display
 pygame.display.flip()
