@@ -2,6 +2,9 @@
 
 import pygame
 
+# Import random for the random numbers lololol
+import random
+
 
 # Import pygame.locals for easier access to key coordinates
 
@@ -77,8 +80,38 @@ pygame.init()
 # The size is determined by the constant SCREEN_WIDTH and SCREEN_HEIGHT
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+# Make a custom event. This adds a new enemy, so the player doesn't constantly have to make one
+ADDENEMY = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDENEMY, 250)
+
+# Creating a new sprite "Enemy" 
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Enemy, self).__init__()
+        self.surf = pygame.Surface((20, 10))
+        self.surf.fill((255, 255, 255))
+        self.rect = self.surf.get_rect(
+            center=(
+                random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
+                random.randint(0, SCREEN_HEIGHT),
+            )
+        )
+        self.speed = random.randint(5, 20)
+
+    # Sprite moves based on set_aceleration
+    # Remove sprite when passes left edge of the screen
+    def update(self):
+        self.rect.move_ip(-self.speed, 0)
+        if self.rect.right < 0:
+            self.kill()
+
 # Instantiate player. Right now, this is just a rectangle.
 player = Player()
+
+# Create multiple groups to hold emepy sprites and all the sprites
+enemies = pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
 
 # Variable to keep the main loop running
 running = True
@@ -96,14 +129,27 @@ while running:
         elif event.type == QUIT:
             running = False
 
+        # Adding a new enemy (if possible by program)
+        elif event.type == ADDENEMY:
+            # Make new enemy + add_as [sprite groups]
+            new_enemy = Enemy()
+            enemies.add(new_enemy)
+            all_sprites.add(new_enemy)
+
     # Set of keys pressed by user:
     pressed_keys = pygame.key.get_pressed()
 
     # Update player sprite from user_key_input:
     player.update(pressed_keys)
 
+    # Update enemy position
+    enemies.update()
+
     # Fill the screen with black
     screen.fill((0, 0, 0))
+
+    for entity in all_sprites:
+        screen.blit(entity.surf, entity.rect)
 
     # Draw the player on the screen
     screen.blit(player.surf, player.rect)
