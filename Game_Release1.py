@@ -96,7 +96,7 @@ class Enemy(pygame.sprite.Sprite):
                 random.randint(0, SCREEN_HEIGHT),
             )
         )
-        self.speed = random.randint(5, 20)
+        self.speed = random.randint(3, 3)
 
     # Sprite moves based on set_aceleration
     # Remove sprite when passes left edge of the screen
@@ -145,11 +145,15 @@ while running:
     # Update enemy position
     enemies.update()
 
-    # Fill the screen with black
-    screen.fill((0, 0, 0))
+    # Background of game/screen
+    screen.fill((255, 0, 85))
 
     for entity in all_sprites:
         screen.blit(entity.surf, entity.rect)
+
+    if pygame.sprite.spritecollideany(player, enemies):
+        player.kill()
+        running = False
 
     # Draw the player on the screen
     screen.blit(player.surf, player.rect)
