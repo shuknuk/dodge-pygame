@@ -32,3 +32,13 @@
                 - So basically the "core" of the game is created, **the main character tries to avoid touching the bad-guys**
 
                 - However, today was only a core-creation. So if the player was to interact with the enemies, nothing would happen because I haven't coded that just yet. 
+
+*April-20-2021:*
+        What changed:
+                - **First version released!** You can download it from the link provided in the `main` branch. Alternatively, you can download this section and run the exe file located here.
+
+                - macOS and Linux versions coming soon very quickly. I just haven't gotten time to extract them into a file that can be runned.
+
+                - Functional game. The charcter (cyan) avoids the enemies (flying white rectangles) on a pink background.
+
+                - The python file is located in the `resources` branch, the `main_project.py` file in this branch doesn't have the latest updates; it's a little bit outdated.
