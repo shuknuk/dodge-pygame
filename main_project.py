@@ -11,7 +11,7 @@ import random
 # Updated to conform to flake8 and black standards
 
 from pygame.locals import (
-
+    RLEACCEL,
     K_w,
     K_a,
     K_s,
@@ -34,11 +34,13 @@ SCREEN_HEIGHT = 600
 # Define a player object by extending pygame.sprite.Sprite
 # The surface drawn on the screen is now an attribute of 'player'
 
+# Code of Player, (NOT the enemy)
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.Surface((75, 25))
-        self.surf.fill((0, 255, 255))
+        self.surf = pygame.image.load("player.png").convert()
+        #           Image of the player - how it will look like.
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect()
 
 # Using either arrow keys or wasd keys to move the "player"
@@ -150,6 +152,12 @@ while running:
 
     for entity in all_sprites:
         screen.blit(entity.surf, entity.rect)
+
+    # Detect if player comes in contact with enemy
+    if pygame.sprite.spritecollideany(player, enemies):
+        player.kill()
+        running = False
+        print("*You lose - better luck next time!*")
 
     # Draw the player on the screen
     screen.blit(player.surf, player.rect)
