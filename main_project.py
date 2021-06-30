@@ -86,6 +86,33 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
 
+# Define the cloud object by extending pygame.sprite.Sprite
+
+class Cloud(pygame.sprite.Sprite):
+	def __init__(self):
+		super(Cloud, self).__init__()
+		self.surf.set_colorkey((0, 0, 0,), RLEACCEL)
+		# Randomized starting position generated
+		self.rect = self.surf.get_rect(
+			center=(
+				random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
+				random.randint(0, SCREEN_HEIGHT),
+			)
+		)
+		
+	# Cloud move at constant speed
+	# If cloud enters left edge => remove
+	def update(self):
+		self.rect.move_ip(-5, 0)
+		if self.rect.right < 0:
+			self.kill()
+
+# Create custom events for adding a new enemy and a cloud
+ADDENEMY = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDENEMY, 250)
+ADDCLOUD = pygame.USEREVENT + 2
+pygame.time.set_timer(ADDCLOUD, 1000)
+
 # Creating a new sprite "Enemy" 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -112,6 +139,7 @@ player = Player()
 
 # Create multiple groups to hold emepy sprites and all the sprites
 enemies = pygame.sprite.Group()
+clouds = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
@@ -137,6 +165,13 @@ while running:
             new_enemy = Enemy()
             enemies.add(new_enemy)
             all_sprites.add(new_enemy)
+            
+        # Add a new cloud?
+        elif event.type == ADDCLOUD:
+			# Create the new cloud and add to sprite groups
+			new_cloud = Cloud()
+			clouds.add(new_cloud)
+			all_sprites.add(new_cloud)
 
     # Set of keys pressed by user:
     pressed_keys = pygame.key.get_pressed()
@@ -146,6 +181,10 @@ while running:
 
     # Update enemy position
     enemies.update()
+    clouds.update()
+    
+    # Fill the screen with sky blue
+    screen.fill((135, 206, 250))
 
     # Fill the screen with black
     screen.fill((0, 0, 0))
