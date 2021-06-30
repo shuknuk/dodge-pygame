@@ -166,12 +166,19 @@ while running:
             enemies.add(new_enemy)
             all_sprites.add(new_enemy)
             
+            
         # Add a new cloud?
+
         elif event.type == ADDCLOUD:
-			# Create the new cloud and add to sprite groups
-			new_cloud = Cloud()
-			clouds.add(new_cloud)
-			all_sprites.add(new_cloud)
+
+            # Create the new cloud and add it to sprite groups
+
+            new_cloud = Cloud()
+
+            clouds.add(new_cloud)
+
+            all_sprites.add(new_cloud)
+
 
     # Set of keys pressed by user:
     pressed_keys = pygame.key.get_pressed()
